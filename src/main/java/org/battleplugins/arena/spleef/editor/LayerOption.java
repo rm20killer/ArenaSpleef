@@ -2,14 +2,12 @@ package org.battleplugins.arena.spleef.editor;
 
 import org.battleplugins.arena.editor.type.EditorKey;
 
-public enum AddLayerOption implements EditorKey {
-    MIN("min"),
-    MAX("max"),
+public enum LayerOption implements EditorKey {
     BLOCK_DATA("blockData");
 
     private final String key;
 
-    AddLayerOption(String key) {
+    LayerOption(String key) {
         this.key = key;
     }
 

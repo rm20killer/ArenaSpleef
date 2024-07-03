@@ -1,5 +1,6 @@
-package org.battleplugins.arena.spleef;
+package org.battleplugins.arena.spleef.arena;
 
+import io.papermc.paper.math.Position;
 import org.battleplugins.arena.Arena;
 import org.battleplugins.arena.competition.Competition;
 import org.battleplugins.arena.competition.map.LiveCompetitionMap;
@@ -12,7 +13,9 @@ import org.bukkit.block.data.BlockData;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SpleefMap extends LiveCompetitionMap {
     static final MapFactory FACTORY = MapFactory.create(SpleefMap.class, SpleefMap::new);
@@ -20,11 +23,33 @@ public class SpleefMap extends LiveCompetitionMap {
     @ArenaOption(name = "layers", description = "The layers for this spleef map.")
     private List<Layer> layers;
 
+    @ArenaOption(name = "death-region", description = "The region where players will die if they fall into.")
+    private Bounds deathRegion;
+
+    private final Map<Position, Layer> positionToLayers = new HashMap<>();
+
     public SpleefMap() {
     }
 
     public SpleefMap(String name, Arena arena, MapType type, String world, @Nullable Bounds bounds, @Nullable Spawns spawns) {
         super(name, arena, type, world, bounds, spawns);
+    }
+
+    @Override
+    public void postProcess() {
+        super.postProcess();
+
+        if (this.layers != null) {
+            for (Layer layer : this.layers) {
+                for (int x = layer.getBounds().getMinX(); x <= layer.getBounds().getMaxX(); x++) {
+                    for (int y = layer.getBounds().getMinY(); y <= layer.getBounds().getMaxY(); y++) {
+                        for (int z = layer.getBounds().getMinZ(); z <= layer.getBounds().getMaxZ(); z++) {
+                            this.positionToLayers.put(Position.block(x, y, z), layer);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -62,6 +87,20 @@ public class SpleefMap extends LiveCompetitionMap {
 
     public void clearLayers() {
         this.layers.clear();
+    }
+
+    @Nullable
+    public Layer getLayer(Position position) {
+        return this.positionToLayers.get(position);
+    }
+
+    @Nullable
+    public Bounds getDeathRegion() {
+        return this.deathRegion;
+    }
+
+    public void setDeathRegion(Bounds deathRegion) {
+        this.deathRegion = deathRegion;
     }
 
     public static class Layer {

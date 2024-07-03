@@ -10,17 +10,17 @@ import org.battleplugins.arena.editor.stage.PositionInputStage;
 import org.battleplugins.arena.editor.stage.TextInputStage;
 import org.battleplugins.arena.editor.type.MapOption;
 import org.battleplugins.arena.messages.Messages;
-import org.battleplugins.arena.spleef.SpleefMap;
+import org.battleplugins.arena.spleef.arena.SpleefMap;
 import org.battleplugins.arena.spleef.SpleefMessages;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
 
 public final class SpleefEditorWizards {
-    public static final ArenaEditorWizard<AddLayerContext> ADD_LAYER = ArenaEditorWizards.createWizard(AddLayerContext::new)
+    public static final ArenaEditorWizard<LayerContext> ADD_LAYER = ArenaEditorWizards.createWizard(LayerContext::new)
             .addStage(MapOption.MIN_POS, new PositionInputStage<>(SpleefMessages.LAYER_SET_MIN_POSITION, ctx -> ctx::setMin))
             .addStage(MapOption.MAX_POS, new PositionInputStage<>(SpleefMessages.LAYER_SET_MAX_POSITION, ctx -> ctx::setMax))
-            .addStage(AddLayerOption.BLOCK_DATA, new TextInputStage<>(
+            .addStage(LayerOption.BLOCK_DATA, new TextInputStage<>(
                     SpleefMessages.LAYER_SET_BLOCK_DATA,
                     SpleefMessages.LAYER_SET_BLOCK_DATA_INVALID,
                     (ctx, str) -> {
@@ -35,29 +35,7 @@ public final class SpleefEditorWizards {
                     ctx -> str -> ctx.setBlockData(Bukkit.createBlockData(str))
             ))
             .onCreationComplete(ctx -> {
-                Position min = ctx.getMin();
-                Position max = ctx.getMax();
-
-                // Sanitize min max
-                if (min.blockX() > max.blockX()) {
-                    int temp = min.blockX();
-                    min = Position.block(max.blockX(), min.blockY(), min.blockZ());
-                    max = Position.block(temp, max.blockY(), max.blockZ());
-                }
-
-                if (min.blockY() > max.blockY()) {
-                    int temp = min.blockY();
-                    min = Position.block(min.blockX(), max.blockY(), min.blockZ());
-                    max = Position.block(max.blockX(), temp, max.blockZ());
-                }
-
-                if (min.blockZ() > max.blockZ()) {
-                    int temp = min.blockZ();
-                    min = Position.block(min.blockX(), min.blockY(), max.blockZ());
-                    max = Position.block(max.blockX(), max.blockY(), temp);
-                }
-
-                Bounds bounds = new Bounds(min, max);
+                Bounds bounds = new Bounds(ctx.getMin(), ctx.getMax());
 
                 SpleefMap map = ctx.getMap();
                 SpleefMap.Layer layer = new SpleefMap.Layer(bounds, ctx.getBlockData());
@@ -72,5 +50,25 @@ public final class SpleefEditorWizards {
                 }
 
                 SpleefMessages.LAYER_ADDED.send(ctx.getPlayer());
+            });
+
+    public static final ArenaEditorWizard<DeathRegionContext> DEATH_REGION = ArenaEditorWizards.createWizard(DeathRegionContext::new)
+            .addStage(MapOption.MIN_POS, new PositionInputStage<>(SpleefMessages.DEATH_REGION_SET_MIN_POSITION, ctx -> ctx::setMin))
+            .addStage(MapOption.MAX_POS, new PositionInputStage<>(SpleefMessages.DEATH_REGION_SET_MAX_POSITION, ctx -> ctx::setMax))
+            .onCreationComplete(ctx -> {
+                Bounds bounds = new Bounds(ctx.getMin(), ctx.getMax());
+
+                SpleefMap map = ctx.getMap();
+                map.setDeathRegion(bounds);
+
+                try {
+                    map.save();
+                } catch (ParseException | IOException e) {
+                    BattleArena.getInstance().error("Failed to save map file for arena {}", ctx.getArena().getName(), e);
+                    Messages.MAP_FAILED_TO_SAVE.send(ctx.getPlayer(), map.getName());
+                    return;
+                }
+
+                SpleefMessages.DEATH_REGION_SET.send(ctx.getPlayer());
             });
 }

@@ -5,6 +5,8 @@ import org.battleplugins.arena.command.ArenaCommandExecutor;
 import org.battleplugins.arena.command.Argument;
 import org.battleplugins.arena.competition.map.CompetitionMap;
 import org.battleplugins.arena.competition.map.options.Bounds;
+import org.battleplugins.arena.spleef.arena.SpleefArena;
+import org.battleplugins.arena.spleef.arena.SpleefMap;
 import org.battleplugins.arena.spleef.editor.SpleefEditorWizards;
 import org.bukkit.entity.Player;
 
@@ -96,5 +98,14 @@ public class SpleefExecutor extends ArenaCommandExecutor {
 
             SpleefMessages.LAYER_INFO.send(player, Integer.toString(i + 1), minBounds, maxBounds, layer.getBlockData().getAsString());
         }
+    }
+
+    @ArenaCommand(commands = "deathregion", description = "Sets the death region for a spleef arena.", permissionNode = "deathregion")
+    public void setDeathRegion(Player player, CompetitionMap map) {
+        if (!(map instanceof SpleefMap spleefMap)) {
+            return; // Should not happen but just incase
+        }
+
+        SpleefEditorWizards.DEATH_REGION.openWizard(player, this.arena, ctx -> ctx.setMap(spleefMap));
     }
 }

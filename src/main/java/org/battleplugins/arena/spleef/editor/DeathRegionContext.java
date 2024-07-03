@@ -4,17 +4,16 @@ import io.papermc.paper.math.Position;
 import org.battleplugins.arena.Arena;
 import org.battleplugins.arena.editor.ArenaEditorWizard;
 import org.battleplugins.arena.editor.EditorContext;
-import org.battleplugins.arena.spleef.SpleefMap;
+import org.battleplugins.arena.spleef.arena.SpleefMap;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 
-public class AddLayerContext extends EditorContext<AddLayerContext> {
+public class DeathRegionContext extends EditorContext<DeathRegionContext> {
     private SpleefMap map;
     private Position min;
     private Position max;
-    private BlockData blockData;
 
-    public AddLayerContext(ArenaEditorWizard<AddLayerContext> wizard, Arena arena, Player player) {
+    public DeathRegionContext(ArenaEditorWizard<DeathRegionContext> wizard, Arena arena, Player player) {
         super(wizard, arena, player);
     }
 
@@ -42,16 +41,8 @@ public class AddLayerContext extends EditorContext<AddLayerContext> {
         this.max = max;
     }
 
-    public BlockData getBlockData() {
-        return this.blockData;
-    }
-
-    public void setBlockData(BlockData blockData) {
-        this.blockData = blockData;
-    }
-
     @Override
     public boolean isComplete() {
-        return this.map != null && this.min != null && this.max != null && this.blockData != null;
+        return this.map != null && this.min != null && this.max != null;
     }
 }

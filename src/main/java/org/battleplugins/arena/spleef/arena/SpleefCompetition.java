@@ -1,7 +1,9 @@
-package org.battleplugins.arena.spleef;
+package org.battleplugins.arena.spleef.arena;
 
+import io.papermc.paper.math.Position;
 import org.battleplugins.arena.competition.CompetitionType;
 import org.battleplugins.arena.competition.LiveCompetition;
+import org.battleplugins.arena.spleef.ArenaSpleef;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,6 +20,7 @@ public class SpleefCompetition extends LiveCompetition<SpleefCompetition> {
     private final SpleefMap map;
 
     private final List<BukkitTask> decayTasks = new ArrayList<>();
+    private final List<Position> pendingDecays = new ArrayList<>();
 
     public SpleefCompetition(SpleefArena arena, CompetitionType type, SpleefMap map) {
         super(arena, type, map);
@@ -92,5 +95,20 @@ public class SpleefCompetition extends LiveCompetition<SpleefCompetition> {
                 }
             }
         }
+    }
+
+    public void decayBlock(Position position) {
+        if (this.pendingDecays.contains(position)) {
+            return;
+        }
+
+        this.pendingDecays.add(position);
+
+        Bukkit.getScheduler().runTaskLater(ArenaSpleef.getInstance(), () -> {
+            Block block = this.map.getWorld().getBlockAt(position.blockX(), position.blockY(), position.blockZ());
+            block.setType(Material.AIR);
+
+            this.pendingDecays.remove(position);
+        }, 5);
     }
 }

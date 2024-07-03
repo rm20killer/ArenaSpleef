@@ -1,9 +1,10 @@
-package org.battleplugins.arena.spleef;
+package org.battleplugins.arena.spleef.action;
 
 import org.battleplugins.arena.Arena;
 import org.battleplugins.arena.ArenaPlayer;
 import org.battleplugins.arena.competition.Competition;
 import org.battleplugins.arena.event.action.EventAction;
+import org.battleplugins.arena.spleef.arena.SpleefCompetition;
 
 import java.util.Map;
 

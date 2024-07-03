@@ -1,8 +1,10 @@
-package org.battleplugins.arena.spleef;
+package org.battleplugins.arena.spleef.action;
 
 import org.battleplugins.arena.ArenaPlayer;
 import org.battleplugins.arena.event.action.EventAction;
+import org.battleplugins.arena.spleef.ArenaSpleef;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
 
@@ -21,6 +23,7 @@ public class GiveShovelAction extends EventAction {
             return;
         }
 
+        shovel.editMeta(meta -> meta.getPersistentDataContainer().set(ArenaSpleef.getInstance().getSpleefItemKey(), PersistentDataType.BOOLEAN, true));
         arenaPlayer.getPlayer().getInventory().addItem(shovel);
     }
 }

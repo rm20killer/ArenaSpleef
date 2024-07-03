@@ -14,6 +14,7 @@ victory-conditions:
     time-limit: 5m
 layer-decay-delay: 2m
 layer-decay-time: 1m
+game: classic
 events:
   on-join:
     - store{types=all}

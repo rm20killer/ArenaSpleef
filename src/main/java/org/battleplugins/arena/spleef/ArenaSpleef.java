@@ -4,6 +4,10 @@ import org.battleplugins.arena.BattleArena;
 import org.battleplugins.arena.config.ArenaConfigParser;
 import org.battleplugins.arena.config.ParseException;
 import org.battleplugins.arena.event.action.EventActionType;
+import org.battleplugins.arena.spleef.action.GiveShovelAction;
+import org.battleplugins.arena.spleef.action.PasteLayersAction;
+import org.battleplugins.arena.spleef.arena.SpleefArena;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,12 +17,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ArenaSpleef extends JavaPlugin {
+
     public static EventActionType<GiveShovelAction> GIVE_SHOVEL = EventActionType.create("give-shovel", GiveShovelAction.class, GiveShovelAction::new);
     public static EventActionType<PasteLayersAction> PASTE_LAYERS = EventActionType.create("paste-layers", PasteLayersAction.class, PasteLayersAction::new);
 
     private static ArenaSpleef instance;
 
     private SpleefConfig config;
+
+    private final NamespacedKey spleefItemKey = new NamespacedKey(this, "spleef_item");
 
     @Override
     public void onEnable() {
@@ -49,6 +56,10 @@ public class ArenaSpleef extends JavaPlugin {
 
     public SpleefConfig getMainConfig() {
         return this.config;
+    }
+
+    public NamespacedKey getSpleefItemKey() {
+        return this.spleefItemKey;
     }
 
     public static ArenaSpleef getInstance() {
