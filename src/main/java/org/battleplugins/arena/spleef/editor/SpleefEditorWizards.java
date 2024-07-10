@@ -1,6 +1,5 @@
 package org.battleplugins.arena.spleef.editor;
 
-import io.papermc.paper.math.Position;
 import org.battleplugins.arena.BattleArena;
 import org.battleplugins.arena.competition.map.options.Bounds;
 import org.battleplugins.arena.config.ParseException;
@@ -10,8 +9,8 @@ import org.battleplugins.arena.editor.stage.PositionInputStage;
 import org.battleplugins.arena.editor.stage.TextInputStage;
 import org.battleplugins.arena.editor.type.MapOption;
 import org.battleplugins.arena.messages.Messages;
-import org.battleplugins.arena.spleef.arena.SpleefMap;
 import org.battleplugins.arena.spleef.SpleefMessages;
+import org.battleplugins.arena.spleef.arena.SpleefMap;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
