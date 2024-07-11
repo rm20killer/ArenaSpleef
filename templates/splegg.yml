@@ -1,9 +1,10 @@
-name: Spleef
+name: Splegg
+mode: Spleef
 type: Match
 team-options:
   named-teams: false
-  team-size: 1
-  team-amount: 2+
+  team-size: 1+
+  team-amount: 2
   team-selection: none
 lives:
   enabled: false
@@ -14,7 +15,7 @@ victory-conditions:
     time-limit: 5m
 layer-decay-delay: 2m
 layer-decay-time: 1m
-game: classic
+game: splegg
 events:
   on-join:
     - store{types=all}
@@ -71,7 +72,7 @@ phases:
     events:
       on-start:
         - change-gamemode{gamemode=survival}
-        - give-shovel{shovel=classic}
+        - give-shovel{shovel=egg-cannon}
   victory:
     allow-join: false
     allow-spectate: false

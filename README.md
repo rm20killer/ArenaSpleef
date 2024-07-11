@@ -10,6 +10,8 @@ ArenaSpleef is the classic spleef plugin that dates back to the early days of Mi
 - **Decay**: A spleef mode where blocks decay underneath the player. This is commonly played as "TNT Run", but any block can be used.
 - **Bow Spleef**: A spleef mode where players are given a bow to shoot arrows at the ground to break blocks. 
 
+For examples configurations of these modes, check out the [templates](https://github.com/BattlePlugins/ArenaSpleef/tree/master/templates) folder.
+
 ## Documentation
 Full documentation for ArenaSpleef can be found on the [BattleDocs](https://docs.battleplugins.org/books/additional-gamemodes/chapter/spleef) website.
 
