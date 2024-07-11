@@ -13,4 +13,3 @@ shovels:
   super-shovel: golden_shovel{display-name=<aqua><bold>Super Spleef Shovel;enchantments=[unbreaking:10,efficiency:5]}
   egg-cannon: netherite_shovel{display-name=<gold><bold>Egg Cannon;enchantments=[unbreaking:10,efficiency:5];item-flags=[hide_enchants]}
   bow: bow{display-name=<red><bold>Fire Bow;enchantments=[unbreaking:10,infinity:1,flame:1]}
-  arrow: arrow
