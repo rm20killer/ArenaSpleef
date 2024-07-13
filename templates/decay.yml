@@ -6,6 +6,8 @@ team-options:
   team-size: 1
   team-amount: 2+
   team-selection: none
+modules:
+  - scoreboards
 lives:
   enabled: false
 victory-conditions:
@@ -30,6 +32,7 @@ events:
   on-leave:
     - clear-effects
     - restore{types=all}
+    - remove-scoreboard
   on-death:
     - clear-inventory
     - respawn
@@ -51,6 +54,11 @@ phases:
   waiting:
     allow-join: true
     next-phase: countdown
+    events:
+      on-start:
+        - apply-scoreboard{scoreboard=waiting}
+      on-join:
+        - apply-scoreboard{scoreboard=waiting}
   countdown:
     allow-join: false
     allow-spectate: true
@@ -60,6 +68,7 @@ phases:
     events:
       on-start:
         - paste-layers
+        - apply-scoreboard{scoreboard=countdown}
       on-complete:
         - teleport{location=team_spawn}
         - play-sound{sound=block.note_block.pling;pitch=2;volume=1}
@@ -72,6 +81,7 @@ phases:
     events:
       on-start:
         - change-gamemode{gamemode=survival}
+        - apply-scoreboard{scoreboard=ingame-list-alive}
   victory:
     allow-join: false
     allow-spectate: false
@@ -80,6 +90,7 @@ phases:
     events:
       on-complete:
         - leave
+        - remove-scoreboard
       on-victory:
         - send-message{message=<green>Congrats, you won!</green>}
         - play-sound{sound=entity.player.levelup;pitch=1;volume=1}
