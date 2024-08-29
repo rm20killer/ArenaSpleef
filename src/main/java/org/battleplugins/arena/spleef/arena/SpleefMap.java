@@ -3,6 +3,7 @@ package org.battleplugins.arena.spleef.arena;
 import io.papermc.paper.math.Position;
 import org.battleplugins.arena.Arena;
 import org.battleplugins.arena.competition.Competition;
+import org.battleplugins.arena.competition.LiveCompetition;
 import org.battleplugins.arena.competition.map.LiveCompetitionMap;
 import org.battleplugins.arena.competition.map.MapFactory;
 import org.battleplugins.arena.competition.map.MapType;
@@ -53,7 +54,7 @@ public class SpleefMap extends LiveCompetitionMap {
     }
 
     @Override
-    public Competition<?> createCompetition(Arena arena) {
+    public LiveCompetition<SpleefCompetition> createCompetition(Arena arena) {
         if (!(arena instanceof SpleefArena spleefArena)) {
             throw new IllegalArgumentException("Arena must be a spleef arena!");
         }

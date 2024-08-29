@@ -12,8 +12,8 @@ import java.util.Map;
 public class GiveShovelAction extends EventAction {
     private static final String SHOVEL_KEY = "shovel";
 
-    public GiveShovelAction(Map<String, String> params, String... requiredKeys) {
-        super(params, requiredKeys);
+    public GiveShovelAction(Map<String, String> params) {
+        super(params, SHOVEL_KEY);
     }
 
     @Override
