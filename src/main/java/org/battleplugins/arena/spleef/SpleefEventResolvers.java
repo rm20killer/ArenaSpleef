@@ -39,7 +39,7 @@ public final class SpleefEventResolvers {
             return null;
         }
 
-        if (!egg.hasMetadata("splegg")) {
+        if (!egg.hasMetadata("splegg") && !ArenaSpleef.getInstance().getMainConfig().shouldProjectilesBreakBlocks()) {
             return null;
         }
 
