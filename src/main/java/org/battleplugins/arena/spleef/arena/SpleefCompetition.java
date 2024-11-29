@@ -90,7 +90,11 @@ public class SpleefCompetition extends LiveCompetition<SpleefCompetition> {
             for (int x = layer.getBounds().getMinX(); x <= layer.getBounds().getMaxX(); x++) {
                 for (int y = layer.getBounds().getMinY(); y <= layer.getBounds().getMaxY(); y++) {
                     for (int z = layer.getBounds().getMinZ(); z <= layer.getBounds().getMaxZ(); z++) {
-                        this.map.getWorld().getBlockAt(x, y, z).setBlockData(layer.getBlockData());
+                        Block block = this.map.getWorld().getBlockAt(x, y, z);
+                        // Check if the block is air or null
+                        if (block.getType() == Material.AIR) {
+                            block.setBlockData(layer.getBlockData());
+                        }
                     }
                 }
             }
