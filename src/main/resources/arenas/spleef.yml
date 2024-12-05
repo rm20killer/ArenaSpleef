@@ -52,12 +52,28 @@ initial-phase: waiting
 phases:
   waiting:
     allow-join: true
-    next-phase: countdown
+    next-phase: waitingforplayers
     events:
       on-start:
         - apply-scoreboard{scoreboard=waiting}
+        - paste-layers
       on-join:
         - apply-scoreboard{scoreboard=waiting}
+  waitingforplayers:
+    allow-join: true
+    allow-spectate: true
+    revert-phase: true
+    next-phase: countdown
+    countdown-time: 45s
+    events:
+      on-start:
+        - broadcast{message=A spleef game is about to start! Do <aqua>/spleef join</aqua> to join;type=chat;audience=server}
+        - apply-scoreboard{scoreboard=countdown}
+      on-join:
+        - apply-scoreboard{scoreboard=countdown}
+      on-complete:
+        - teleport{location=team_spawn}
+        - play-sound{sound=block.note_block.pling;pitch=2;volume=1}
   countdown:
     allow-join: false
     allow-spectate: true
@@ -66,11 +82,11 @@ phases:
     countdown-time: 5s
     events:
       on-start:
-        - paste-layers
         - apply-scoreboard{scoreboard=countdown}
+        - give-effects{effects=[slowness{duration=100;amplifier=255}]}
       on-complete:
-        - teleport{location=team_spawn}
         - play-sound{sound=block.note_block.pling;pitch=2;volume=1}
+        - clear-effects
   ingame:
     allow-join: false
     allow-spectate: true
